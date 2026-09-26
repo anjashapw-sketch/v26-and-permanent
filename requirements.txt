@@ -2,3 +2,5 @@ pyTelegramBotAPI
 python-dotenv
 requests
 pymongo
+pyrogram
+tgcrypto
