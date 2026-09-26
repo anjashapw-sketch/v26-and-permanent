@@ -1,0 +1,63 @@
+2026-09-16 10:38:39,918 - num_info_bot - INFO - 🔑 Aadhaar Key: monu_c24e25e...
+2026-09-16 10:38:41,763 - num_info_bot - INFO - ✅ MongoDB connected.
+2026-09-16 10:38:46,985 - num_info_bot - INFO - ✅ DB initialized.
+2026-09-16 10:38:52,890 - num_info_bot - INFO - 🚀 Bot starting (v4)...
+2026-09-16 10:38:52,891 - num_info_bot - INFO - 👑 Admin: 8027403165
+2026-09-16 10:38:52,982 - num_info_bot - INFO - 🎁 Welcome bonus: 15cr
+2026-09-16 10:38:53,068 - num_info_bot - INFO - 🔎 Search cost: 5cr
+2026-09-16 10:38:53,357 - num_info_bot - INFO - 🔌 Auto UPI: ON
+2026-09-16 10:38:53,533 - num_info_bot - INFO - 🔎 Num API: ON
+2026-09-16 10:38:53,759 - num_info_bot - INFO - 🆔 Aadhaar API: ON
+2026-09-16 10:38:54,030 - num_info_bot - INFO - 🔒 TG2Num API: ON
+2026-09-16 10:38:54,127 - num_info_bot - INFO - 💬 Groups: 6
+2026-09-16 10:39:47,341 - num_info_bot - ERROR - TG2Num: AnimMsg.edit() got an unexpected keyword argument 'parse_mode'
+2026-09-16 10:40:12,444 - num_info_bot - ERROR - TG2Num: AnimMsg.edit() got an unexpected keyword argument 'parse_mode'
+2026-09-16 10:53:04,217 - num_info_bot - INFO - 🔑 Aadhaar Key: monu_c24e25e...
+2026-09-16 10:53:05,681 - num_info_bot - INFO - ✅ MongoDB connected.
+2026-09-16 10:53:10,514 - num_info_bot - INFO - ✅ DB initialized.
+2026-09-16 10:53:11,949 - num_info_bot - INFO - 🚀 Bot starting (v4)...
+2026-09-16 10:53:11,955 - num_info_bot - INFO - 👑 Admin: 8027403165
+2026-09-16 10:53:12,042 - num_info_bot - INFO - 🎁 Welcome bonus: 15cr
+2026-09-16 10:53:12,129 - num_info_bot - INFO - 🔎 Search cost: 5cr
+2026-09-16 10:53:12,466 - num_info_bot - INFO - 🔌 Auto UPI: ON
+2026-09-16 10:53:12,686 - num_info_bot - INFO - 🔎 Num API: ON
+2026-09-16 10:53:12,863 - num_info_bot - INFO - 🆔 Aadhaar API: ON
+2026-09-16 10:53:13,090 - num_info_bot - INFO - 🔒 TG2Num API: ON
+2026-09-16 10:53:13,205 - num_info_bot - INFO - 💬 Groups: 6
+2026-09-16 11:04:40,283 - num_info_bot - INFO - 🔑 Aadhaar Key: monu_c24e25e...
+2026-09-16 11:04:41,813 - num_info_bot - INFO - ✅ MongoDB connected.
+2026-09-16 11:04:45,750 - num_info_bot - INFO - ✅ DB initialized.
+2026-09-16 11:04:46,923 - num_info_bot - INFO - 🚀 Bot starting (v4)...
+2026-09-16 11:04:46,925 - num_info_bot - INFO - 👑 Admin: 8027403165
+2026-09-16 11:04:47,005 - num_info_bot - INFO - 🎁 Welcome bonus: 15cr
+2026-09-16 11:04:47,080 - num_info_bot - INFO - 🔎 Search cost: 5cr
+2026-09-16 11:04:47,329 - num_info_bot - INFO - 🔌 Auto UPI: ON
+2026-09-16 11:04:47,496 - num_info_bot - INFO - 🔎 Num API: ON
+2026-09-16 11:04:47,650 - num_info_bot - INFO - 🆔 Aadhaar API: ON
+2026-09-16 11:04:47,807 - num_info_bot - INFO - 🔒 TG2Num API: ON
+2026-09-16 11:04:47,891 - num_info_bot - INFO - 💬 Groups: 6
+2026-09-16 11:06:28,707 - num_info_bot - INFO - 🔑 Aadhaar Key: monu_c24e25e...
+2026-09-16 11:06:30,203 - num_info_bot - INFO - ✅ MongoDB connected.
+2026-09-16 11:06:34,510 - num_info_bot - INFO - ✅ DB initialized.
+2026-09-16 11:06:35,841 - num_info_bot - INFO - 🚀 Bot starting (v4)...
+2026-09-16 11:06:35,842 - num_info_bot - INFO - 👑 Admin: 8027403165
+2026-09-16 11:06:35,946 - num_info_bot - INFO - 🎁 Welcome bonus: 15cr
+2026-09-16 11:06:36,025 - num_info_bot - INFO - 🔎 Search cost: 5cr
+2026-09-16 11:06:36,318 - num_info_bot - INFO - 🔌 Auto UPI: ON
+2026-09-16 11:06:36,501 - num_info_bot - INFO - 🔎 Num API: ON
+2026-09-16 11:06:36,721 - num_info_bot - INFO - 🆔 Aadhaar API: ON
+2026-09-16 11:06:36,893 - num_info_bot - INFO - 🔒 TG2Num API: ON
+2026-09-16 11:06:37,013 - num_info_bot - INFO - 💬 Groups: 6
+2026-09-16 11:12:02,831 - num_info_bot - INFO - 🛑 Shutting down...
+2026-09-16 11:13:23,797 - num_info_bot - INFO - 🔑 Aadhaar Key: monu_c24e25e...
+2026-09-16 11:13:25,244 - num_info_bot - INFO - ✅ MongoDB connected.
+2026-09-16 11:13:29,300 - num_info_bot - INFO - ✅ DB initialized.
+2026-09-16 11:13:30,853 - num_info_bot - INFO - 🚀 Bot starting (v6)...
+2026-09-16 11:13:30,853 - num_info_bot - INFO - 👑 Admin: 8027403165
+2026-09-16 11:13:30,959 - num_info_bot - INFO - 🎁 Welcome bonus: 15cr
+2026-09-16 11:13:31,052 - num_info_bot - INFO - 🔎 Search cost: 5cr
+2026-09-16 11:13:31,286 - num_info_bot - INFO - 🔌 Auto UPI: ON
+2026-09-16 11:13:31,456 - num_info_bot - INFO - 🔎 Num API: ON
+2026-09-16 11:13:31,611 - num_info_bot - INFO - 🆔 Aadhaar API: ON
+2026-09-16 11:13:31,772 - num_info_bot - INFO - 🔒 TG2Num API: ON
+2026-09-16 11:13:31,850 - num_info_bot - INFO - 💬 Groups: 6
