@@ -1,9 +1,10 @@
 """
 ================================================================
-  Num Info Bot — v28.2 FINAL (FJ Real-Check Fix)
+  Num Info Bot — v28.2 FINAL (FJ Real-Check Fix + TG2Num API Fix)
   ✅ FJ: Real get_chat_member check — no blind verify
   ✅ Join nahi kiya → verify fail
   ✅ Join kiya → verify pass
+  ✅ TG2Num API: q= & api= params, new response format supported
 ================================================================
 """
 
@@ -894,27 +895,42 @@ def query_vehicle(vehicle):
     except Exception as e:
         record_api_call("vehicle", False); return False, None, str(e)
 
+# ✅ FIXED TG2Num API FUNCTION
 def query_tg2num_id(tg_id):
     tg_url = get_setting("tg2num_url_env", TG2NUM_URL)
     tg_key = get_setting("tg2num_key_env", TG2NUM_KEY)
     if not tg_url: return False, None, "TG2NUM_URL not configured"
     try:
         base = tg_url.rstrip("/")
-        params = {"id": str(tg_id).strip()}
-        if tg_key: params["key"] = tg_key
-        r = requests.get(base + "/", params=params, timeout=30)
+        # ✅ API chahta hai: q=... & api=...
+        params = {"q": str(tg_id).strip()}
+        if tg_key: params["api"] = tg_key
+        r = requests.get(base, params=params, timeout=30)
         if r.status_code != 200:
             record_api_call("username", False); return False, None, f"HTTP {r.status_code}"
         try: data = r.json()
         except:
             record_api_call("username", False); return False, None, "Invalid JSON"
-        if not data.get("success"):
+
+        # ✅ Naya response format: {"status":"success","data":{...}}
+        if data.get("status") != "success":
             record_api_call("username", False)
             return False, None, data.get("message", "API error")
-        result = data.get("result")
-        if isinstance(result, list) and result: result = result[0]
-        if not isinstance(result, dict) or not result.get("number"):
+
+        d = data.get("data") or {}
+        # "Owner≠Number" me special char (≠) hai — direct key use karo
+        number = (d.get("Owner≠Number") or d.get("Owner Number")
+                  or d.get("OwnerNumber") or d.get("number") or d.get("Number"))
+        if not number:
             record_api_call("username", False); return False, None, "No number"
+
+        # Bot ke expected format me convert karo
+        result = {
+            "tg_id": d.get("TG -ID") or d.get("TG-ID") or d.get("TGID") or str(tg_id),
+            "country_code": d.get("Country-Code") or d.get("Country Code") or d.get("CountryCode") or "+91",
+            "country": "India",
+            "number": str(number).strip()
+        }
         record_api_call("username", True)
         return True, result, None
     except requests.exceptions.Timeout:
@@ -2686,7 +2702,6 @@ class FJManager:
         self.bot = bot
         self.pending = {}
         self.msg = {}
-        # ✅ verify_clicked REMOVED — ab sirf real API check
         self.channels = []
         self.global_enabled = False
         self._load()
@@ -2725,10 +2740,6 @@ class FJManager:
         return '+' in s or 'joinchat' in s
 
     def check(self, uid):
-        """
-        ✅ REAL CHECK — always uses get_chat_member API.
-        No blind trust. Join nahi kiya to missing return karega.
-        """
         if not self.is_on():
             return None
         if is_admin_user(uid):
@@ -2740,12 +2751,10 @@ class FJManager:
             try:
                 m = self.bot.get_chat_member(cid, uid)
                 status = str(getattr(m, 'status', '')).lower()
-                # Ye statuses joined maane jayenge
                 if status in ('member', 'administrator', 'creator', 'restricted'):
                     joined = True
             except Exception as e:
                 err = str(e).lower()
-                # Ye errors = user NOT joined
                 if ('user_not_participant' in err
                     or 'user not participant' in err
                     or 'user not found' in err
@@ -2753,11 +2762,9 @@ class FJManager:
                     or 'participant' in err):
                     joined = False
                 elif 'chat_admin_required' in err or 'bot is not a member' in err:
-                    # Bot admin nahi hai to check skip karo (admin ko warning already mila)
                     logger.warning(f"FJ skip {cid}: bot not admin")
-                    joined = True  # assume joined to avoid blocking users
+                    joined = True
                 else:
-                    # Unknown error → conservative: check fail → mark missing
                     logger.warning(f"FJ err {cid}: {e}")
                     joined = False
             if not joined:
@@ -2811,14 +2818,9 @@ class FJManager:
     def verify_cb(self, call):
         uid = call.from_user.id
         cid = call.message.chat.id
-
-        # ✅ FIX: Real check only. 1 sec delay for Telegram sync.
         time.sleep(1)
-
         missing = self.check(uid)
-
         if missing is None:
-            # ✅ User joined — verified!
             mid = self.msg.pop(uid, None)
             if mid:
                 try:
@@ -2842,7 +2844,6 @@ class FJManager:
             except:
                 pass
         else:
-            # ❌ User NOT joined — fail!
             om = self.msg.pop(uid, None)
             if om:
                 try:
@@ -2854,7 +2855,6 @@ class FJManager:
                     "❌ Pehle channel join karo!", show_alert=True)
             except:
                 pass
-            # Re-show prompt
             self.ensure(uid, cid)
 
     def _exec(self, uid, cid, p, call):
@@ -4706,7 +4706,6 @@ def cb(call):
         except: pass
         safe_ans(call); return
 
-    # FJ
     if d == "force_verify": manager.verify_cb(call); return
     if d.startswith('fj_'):
         if d == 'fj_toggle':
