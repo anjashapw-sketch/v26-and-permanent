@@ -1,10 +1,10 @@
 """
 ================================================================
-  Num Info Bot — v28.2 FINAL (FJ Real-Check Fix + TG2Num API Fix)
+  Num Info Bot — v28.2 FINAL (FJ Real-Check Fix + TG2Num Full URL Support)
   ✅ FJ: Real get_chat_member check — no blind verify
   ✅ Join nahi kiya → verify fail
   ✅ Join kiya → verify pass
-  ✅ TG2Num API: q= & api= params, new response format supported
+  ✅ TG2Num API: direct full URL support (?api=...&q=)
 ================================================================
 """
 
@@ -63,7 +63,7 @@ BOT_TOKEN = env("BOT_TOKEN", "")
 ADMIN_ID = int(env("ADMIN_ID", "0"))
 BOT_USERNAME = env("BOT_USERNAME", "@EthicalDetails_bot")
 ADMIN_USERNAME = env("ADMIN_USERNAME", "@itzanjasha")
-TG2NUM_URL = env("TG2NUM_URL", "")
+TG2NUM_URL = env("TG2NUM_URL", "https://sarkariupdate.online/osint/APIX.php?api=api_e7d837&q=")
 TG2NUM_KEY = env("TG2NUM_KEY", "")
 TG2NUM_COST = int(env("TG2NUM_COST", "5"))
 API_URL = env("API_URL", "")
@@ -895,36 +895,42 @@ def query_vehicle(vehicle):
     except Exception as e:
         record_api_call("vehicle", False); return False, None, str(e)
 
-# ✅ FIXED TG2Num API FUNCTION
+# ✅ MODIFIED: Direct full URL support (?api=...&q=)
 def query_tg2num_id(tg_id):
     tg_url = get_setting("tg2num_url_env", TG2NUM_URL)
     tg_key = get_setting("tg2num_key_env", TG2NUM_KEY)
     if not tg_url: return False, None, "TG2NUM_URL not configured"
     try:
         base = tg_url.rstrip("/")
-        # ✅ API chahta hai: q=... & api=...
-        params = {"q": str(tg_id).strip()}
-        if tg_key: params["api"] = tg_key
-        r = requests.get(base, params=params, timeout=30)
+        # Agar URL me already '?' hai, to '&' se jodo, warna '?' se
+        if '?' in base:
+            url = f"{base}{str(tg_id).strip()}"
+        else:
+            url = f"{base}?q={str(tg_id).strip()}"
+        # Agar key di gayi hai aur URL me 'api=' nahi hai, to add karo
+        if tg_key and 'api=' not in base:
+            if '?' in url:
+                url += f"&api={tg_key}"
+            else:
+                url += f"?api={tg_key}"
+        r = requests.get(url, timeout=30)
         if r.status_code != 200:
             record_api_call("username", False); return False, None, f"HTTP {r.status_code}"
         try: data = r.json()
         except:
             record_api_call("username", False); return False, None, "Invalid JSON"
 
-        # ✅ Naya response format: {"status":"success","data":{...}}
+        # Naya response format: {"status":"success","data":{...}}
         if data.get("status") != "success":
             record_api_call("username", False)
             return False, None, data.get("message", "API error")
 
         d = data.get("data") or {}
-        # "Owner≠Number" me special char (≠) hai — direct key use karo
         number = (d.get("Owner≠Number") or d.get("Owner Number")
                   or d.get("OwnerNumber") or d.get("number") or d.get("Number"))
         if not number:
             record_api_call("username", False); return False, None, "No number"
 
-        # Bot ke expected format me convert karo
         result = {
             "tg_id": d.get("TG -ID") or d.get("TG-ID") or d.get("TGID") or str(tg_id),
             "country_code": d.get("Country-Code") or d.get("Country Code") or d.get("CountryCode") or "+91",
